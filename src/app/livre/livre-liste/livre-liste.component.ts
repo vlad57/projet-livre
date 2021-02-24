@@ -62,6 +62,7 @@ export class LivreListeComponent implements OnInit {
     }
 
     this.liste(0, this.perPage, this.userId);
+    this.paginator.pageIndex = 0;
   }
 
   liste(page, perPage, userId = null): void {
@@ -85,7 +86,7 @@ export class LivreListeComponent implements OnInit {
         this.data.push({id : item.id, titre: item.titre, description: item.description, note: item.note, categorie: categorieName, user: item.User});
       });
 
-      this.totalItems = data.livres.count;
+      this.totalItems = data.totalLivre;
 
       this.dataSource.data = this.data;
 

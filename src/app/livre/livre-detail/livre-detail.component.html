@@ -1,0 +1,57 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container" *ngIf="livreUserId && userId != livreUserId" style="margin-top: 15px; text-align: center; max-width: 50%;">
+
+  <div class="card" style="width: 100%">
+    <div class="card-body">
+      <h2 class="card-title">{{livre.controls.livreTitle.value}}</h2>
+      <p class="card-text">{{livre.controls.livreDescription.value}}</p>
+
+      <div style="float: left; max-width: 50%;" *ngIf="dataLivre">
+        <span class="badge bg-secondary" style="color: #fff; margin-left: 10px;" *ngFor="let categorieLivre of dataLivre.Categories">{{categorieLivre.titre}}</span>
+      </div>
+
+      <div style="float:right">
+        <ngb-rating max="5" [rate]="livre.controls.livreNote.value"></ngb-rating>
+        <hr>
+        <pre>Note: <b>{{livre.controls.livreNote.value}}</b></pre>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="container" *ngIf="userId == livreUserId || !livreUserId" style="margin-top: 15px; text-align: center; max-width: 50%;">
+  <div >
+    <form [formGroup]="livre">
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Titre</mat-label>
+        <input matInput formControlName="livreTitle" placeholder="Titre">
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="livreDescription" placeholder="Description"></textarea>
+      </mat-form-field>
+
+      <div class="row">
+        <div class="col-md-3">
+          <mat-slider formControlName="livreNote" thumbLabel step="0.5" min="1" max="5" value="0"></mat-slider>
+        </div>
+        <div class="col-md-9">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Catégories</mat-label>
+            <mat-select formControlName="categorieIds" multiple>
+              <mat-option *ngFor="let categorie of dataCategories" [value]="categorie.id">{{categorie.titre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button type="submit" mat-raised-button color="primary" style="float:right;" (click)="onSubmit()"> Sauvegarder </button>
+
+    </form>
+  </div>
+</div>

@@ -6,6 +6,8 @@
     <h1 style="margin-top: 20px; margin-bottom: 20px;">La collection de livres</h1>
   </div>
 
+  <a style="float: right;" mat-fab color="primary" routerLink="/livre/new"><i class="fas fa-plus"></i></a>
+
   <mat-form-field>
     <mat-label>Options d'affichage</mat-label>
     <mat-select #t (selectionChange)="onSelectChange(t.value)" >

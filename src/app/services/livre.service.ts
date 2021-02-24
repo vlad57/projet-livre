@@ -24,6 +24,30 @@ export class LivreService {
       ;
   }
 
+  getLivre(livreId: string): Observable<any> {
+    return this.httpClient.get(`http://localhost:8081/api/livre/${livreId}`, {
+      headers: this.httpCallServices.getHeader(localStorage.getItem('tokenAuth'), 'application/json'),
+      params: {
+        userId: localStorage.getItem('userId'),
+      }
+    });
+  }
+
+  newLivre(livre: Array<any>) {
+    return this.httpClient.post('http://localhost:8081/api/livre/create/', livre, {
+      headers: this.httpCallServices.getHeader(localStorage.getItem('tokenAuth'), 'application/json'),
+    });
+  }
+
+  editLivre(livre: Array<any>) {
+    return this.httpClient.post('http://localhost:8081/api/livre/update/', livre, {
+      headers: this.httpCallServices.getHeader(localStorage.getItem('tokenAuth'), 'application/json'),
+      params: {
+        userId: localStorage.getItem('userId'),
+      }
+    });
+  }
+
   deleteLivre(livreId) {
 
     const headers = {

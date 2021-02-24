@@ -20,6 +20,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { LivreListeComponent } from './livre/livre-liste/livre-liste.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { LivreDetailComponent } from './livre/livre-detail/livre-detail.component';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 
@@ -31,7 +33,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NavBarComponent,
     LoginComponent,
     RegisterComponent,
-    LivreListeComponent
+    LivreListeComponent,
+    LivreDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatPaginatorModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
