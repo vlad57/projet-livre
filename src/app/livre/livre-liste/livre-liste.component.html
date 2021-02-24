@@ -1,0 +1,92 @@
+<app-nav-bar [active]="active"></app-nav-bar>
+
+<div class="container">
+
+  <div style="text-align: center;">
+    <h1 style="margin-top: 20px; margin-bottom: 20px;">La collection de livres</h1>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Options d'affichage</mat-label>
+    <mat-select #t (selectionChange)="onSelectChange(t.value)" >
+      <mat-option *ngFor="let selectVal of selectDisplay" [value]="selectVal.value">{{selectVal.text}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="data.length > 0">
+    <mat-table [dataSource]="data">
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox *ngIf="row.user.id == userIdSave" (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="titre">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>Titre</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">{{row.titre}}</mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="note">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>Note</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">{{row.note}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="categorie">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>Catégorie</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">{{row.categorie}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">
+
+          <a mat-raised-button routerLink="/livre/detail/{{row.id}}" *ngIf="row.user.id == userIdSave"><i class="fas fa-edit"></i></a>
+          <a mat-raised-button routerLink="/livre/detail/{{row.id}}" *ngIf="row.user.id != userIdSave"><i class="fas fa-eye"></i></a>
+          <button *ngIf="row.user.id == userIdSave" (click)="onDelete(row.id)" mat-raised-button color="warn"><i class="fas fa-trash"></i></button>
+
+        </mat-cell>
+      </ng-container>
+    </mat-table>
+
+    <mat-form-field *ngIf="selection.hasValue()" style="float:left;">
+      <mat-label>Actions de sélection</mat-label>
+      <mat-select #t (selectionChange)="onSelectGroup(t.value)" >
+        <mat-option value="">Choisir</mat-option>
+        <mat-option value="SUPPR_GROUP">Supprimer les éléments sélectionnés</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-paginator #paginator [length]="totalItems"
+                   [pageSize]="this.perPage"
+                   [pageSizeOptions]="[5, 10, 25, 100]"
+                   (page)="pageEvent = $event; onPageChange($event)"
+                   showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

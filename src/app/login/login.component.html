@@ -1,0 +1,37 @@
+<div class="container" style="text-align: center; max-width: 50%;">
+  <h1 style="font-size:10vw; line-height: normal;">Livres</h1>
+
+  <div class="alert alert-danger alert-dismissible" style=" {{(messageError) ? 'display: block;' : 'display:none;' }}">
+    <strong>{{messageError}}</strong>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+
+
+    <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" id="emailLoginForm" matInput formControlName="email" placeholder="Entrer email">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Mot de passe</mat-label>
+      <input type="password" id="passwordLoginForm" matInput formControlName="password" placeholder="Mot de passe">
+    </mat-form-field>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+      <button type="submit" mat-raised-button color="primary">Se connecter</button>
+    </div>
+
+    <div style="text-align: center;">
+      <a mat-button routerLink="/register">Créer un compte</a>
+    </div>
+
+  </form>
+
+
+</div>
+
+
+
+
+
