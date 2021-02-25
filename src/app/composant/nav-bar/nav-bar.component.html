@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="/livre/list">Livre</a>
+    <a class="navbar-brand" routerLink="/livre/list">Livre</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,14 +9,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent" style="text-align: center;">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item {{(active === 'livre') ? 'active' : ''}} ">
-          <a class="nav-link" href="/livre/list">Livres <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/livre/list">Livres <span class="sr-only">(current)</span></a>
         </li>
 
         <li class="nav-item {{(active === 'categorie') ? 'active' : ''}}">
-          <a class="nav-link" href="/categorie/list">Catégories <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/categorie/list">Catégories <span class="sr-only">(current)</span></a>
         </li>
       </ul>
-      <a routerLink="/logout" class="btn btn-info"><i class="fas fa-sign-out-alt"></i></a>
+      <a routerLink="logout" class="btn btn-info"><i class="fas fa-sign-out-alt"></i></a>
     </div>
   </div>
 
