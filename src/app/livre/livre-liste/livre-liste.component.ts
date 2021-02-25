@@ -20,7 +20,7 @@ export class LivreListeComponent implements OnInit {
   pageEvent: PageEvent;
   httpCallService: HttpCallService;
   active = 'livre';
-  displayedColumns = ['select', 'id', 'titre', 'description', 'note', 'categorie', 'action'];
+  displayedColumns = ['select', 'id', 'titre', 'note', 'categorie', 'action'];
   selectDisplay = [
     {value: 1, text: 'Mes livres'},
     {value: 2, text: 'Tous les livres'}

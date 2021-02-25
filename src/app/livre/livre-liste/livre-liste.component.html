@@ -43,13 +43,13 @@
 
       <ng-container matColumnDef="titre">
         <mat-header-cell mat-header-cell *matHeaderCellDef>Titre</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row">{{row.titre}}</mat-cell>
+        <mat-cell mat-cell *matCellDef="let row" style="overflow: scroll;">{{row.titre}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="description">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row" style="overflow: scroll;">{{row.description}}</mat-cell>
-      </ng-container>
+      <!--ng-container matColumnDef="description">
+        <mat-header-cell style="width:5% !important;" mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row" style="overflow: scroll; width: 5%;">{{row.description}}</mat-cell>
+      </ng-container-->
 
 
       <ng-container matColumnDef="note">
@@ -64,7 +64,7 @@
 
       <ng-container matColumnDef="action">
         <mat-header-cell mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row" style="height: auto;">
+        <mat-cell mat-cell *matCellDef="let row" style="overflow: scroll;">
 
           <a mat-raised-button routerLink="/livre/detail/{{row.id}}" *ngIf="row.user.id == userIdSave" style="display: block;"><i class="fas fa-edit"></i></a>
           <a mat-raised-button routerLink="/livre/detail/{{row.id}}" *ngIf="row.user.id != userIdSave"><i class="fas fa-eye"></i></a>

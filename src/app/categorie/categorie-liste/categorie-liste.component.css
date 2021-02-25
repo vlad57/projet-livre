@@ -1,0 +1,37 @@
+.mat-table {
+  overflow: auto;
+  max-height: 270px;
+}
+
+.mat-table {
+  max-height: fit-content;
+}
+
+.mat-column-description {
+  flex: 0 0 20%;
+}
+
+.mat-column-titre {
+  flex: 0 0 20%;
+}
+
+.mat-column-id {
+  flex: 0 0 10%;
+}
+
+.mat-column-select {
+  flex: 0 0 10%;
+}
+
+mat-header-cell, mat-cell {
+  justify-content: center;
+  text-align: center;
+}
+
+.mat-row {
+  height: auto;
+}
+
+mat-cell {
+  margin: 15px 15px 15px 0;
+}
