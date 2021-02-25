@@ -27,6 +27,12 @@
     <strong>{{messageError}}</strong>
   </div>
 
+  <div *ngIf="livreId" style="float: right;">
+    <a mat-fab color="accent" href="mailto:?subject=Je souhaite partager un livre&amp;body=Voici le lien : https://vlad57.github.io/projet-livre/livre/detail/{{livreId}}">
+      <i class="fas fa-share-alt"></i>
+    </a>
+  </div>
+
   <div >
     <form [formGroup]="livre">
 
@@ -42,6 +48,7 @@
 
       <div class="row">
         <div class="col-md-3">
+          <mat-label>Note</mat-label>
           <mat-slider formControlName="livreNote" thumbLabel step="0.5" min="1" max="10" value="0"></mat-slider>
         </div>
         <div class="col-md-9">
