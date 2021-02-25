@@ -1,0 +1,8 @@
+.mat-table {
+  overflow: auto;
+  max-height: 270px;
+}
+
+.mat-table {
+  max-height: fit-content;
+}
