@@ -1,10 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
 import {HttpCallService} from '../services/http-call.service';
-import {isInteger} from '@ng-bootstrap/ng-bootstrap/util/util';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -12,10 +11,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  constructor(private httpClient: HttpClient, public httpCallServices: HttpCallService, private router: Router) {
-    this.httpCallService = httpCallServices;
-  }
 
   httpCallService: HttpCallService;
 
@@ -26,12 +21,24 @@ export class RegisterComponent implements OnInit {
     confirmPassword: new FormControl(''),
   });
 
+  messageError = null;
+
+  constructor(private httpClient: HttpClient, public httpCallServices: HttpCallService, private router: Router) {
+    this.httpCallService = httpCallServices;
+  }
+
   ngOnInit(): void {
   }
 
   onSubmit() {
 
-    this.httpClient.post('http://localhost:8081/api/user/register/', {
+    // tslint:disable-next-line:max-line-length
+    if ((!this.registerForm.controls.password || !this.registerForm.controls.confirmPassword) || (this.registerForm.controls.password.value !== this.registerForm.controls.confirmPassword.value)) {
+      this.messageError = 'Les mots de passe ne sont pas identiques.';
+      return false;
+    }
+
+    this.httpClient.post(`${environment.apiUrl}/api/user/register/`, {
       'email': this.registerForm.get('email').value,
       'username': this.registerForm.get('username').value,
       'password': this.registerForm.get('password').value
@@ -49,6 +56,9 @@ export class RegisterComponent implements OnInit {
             }
           }).then(r => null);
         }
+      }, error => {
+
+        this.messageError = error.error.error;
       });
   }
 

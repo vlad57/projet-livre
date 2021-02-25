@@ -20,6 +20,8 @@ export class LivreDetailComponent implements OnInit {
   livreId = null;
   livreUserId = null;
   dataLivre;
+  messageError = null;
+  toSubmit = true;
 
   livre = new FormGroup({
     livreId: new FormControl(''),
@@ -31,7 +33,7 @@ export class LivreDetailComponent implements OnInit {
 
   // tslint:disable-next-line:variable-name max-line-length
   constructor(public _httpCallService: HttpCallService, private route: ActivatedRoute,  public router: Router,
-              private httpClient: HttpClient, public livreService: LivreService, public categorieService: CategorieService) {
+              public livreService: LivreService, public categorieService: CategorieService) {
     this.httpCallService = _httpCallService;
   }
 
@@ -40,7 +42,9 @@ export class LivreDetailComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
 
     this.categorieService.categorieList(0, null, this.userId).pipe(map(data => {
-      this.dataCategories = data.categories.rows;
+      if (data.categories) {
+        this.dataCategories = data.categories.rows;
+      }
     })).subscribe();
 
     if (this.livreId) {
@@ -49,8 +53,6 @@ export class LivreDetailComponent implements OnInit {
 
 
         this.dataLivre = data;
-
-        console.log(this.dataLivre)
 
         this.livreUserId = data.User.id;
 
@@ -69,29 +71,93 @@ export class LivreDetailComponent implements OnInit {
 
   }
 
-  onSubmit() {
-
-    if (!this.livre.controls.livreNote.value) {
-      this.livre.controls.livreNote.setValue(0);
+  checkTitle(value): Promise<boolean> {
+    if (typeof value !== 'string') {
+      value = value.target.value;
     }
+
+    let body;
 
     if (this.livreId) {
-      this.livreService.editLivre(this.livre.value).subscribe(data => {
-        const dataReturned: any = data;
-
-        if (dataReturned.isUpdated) {
-          this.router.navigate(['/livre/list']).then(r => null);
-        }
-      });
+      body = {
+        livreId: this.livreId,
+        livreTitle: value
+      };
     } else {
-      this.livreService.newLivre(this.livre.value).subscribe(data => {
-        const dataReturned: any = data;
-
-        if (dataReturned.created) {
-          this.router.navigate(['/livre/list']).then(r => null);
-        }
-      });
+      body = {
+        livreId: null,
+        livreTitle: value
+      };
     }
+
+    return this.livreService.checkTitle(body).then(data => {
+      let valToRet = false;
+
+      const returnedData: any = data;
+
+      if (!returnedData.isEmpty) {
+        if (returnedData.livre.length > 1) {
+          this.toSubmit = false;
+          this.messageError = 'Ce titre existe déjà';
+          valToRet = false;
+        } else if (returnedData.livre.length === 1) {
+          returnedData.livre.forEach(item => {
+            if (+item.id !== +this.livreId) {
+              this.toSubmit = false;
+              this.messageError = 'Ce titre existe déjà';
+              valToRet = false;
+            } else {
+              this.toSubmit = true;
+              valToRet = true;
+            }
+          });
+        } else {
+          this.toSubmit = true;
+          valToRet = true;
+        }
+      } else {
+        this.toSubmit = true;
+        valToRet = true;
+      }
+
+      return valToRet;
+    });
+
+
+  }
+
+  onSubmit() {
+
+    this.checkTitle(this.livre.controls.livreTitle.value).then(data => {
+      if (data) {
+        if (!this.livre.controls.livreTitle.value || !this.livre.controls.livreDescription.value) {
+          this.messageError = 'Les champs obligatoires doivent être complétés.';
+          return false;
+        }
+
+        if (!this.livre.controls.livreNote.value) {
+          this.livre.controls.livreNote.setValue(1);
+        }
+
+        if (this.livreId) {
+          this.livreService.editLivre(this.livre.value).subscribe(data => {
+            const dataReturned: any = data;
+
+            if (dataReturned.isUpdated) {
+              this.router.navigate(['/livre/list']).then(r => null);
+            }
+          });
+        } else {
+          this.livreService.newLivre(this.livre.value).subscribe(data => {
+            const dataReturned: any = data;
+
+            if (dataReturned.created) {
+              this.router.navigate(['/livre/list']).then(r => null);
+            }
+          });
+        }
+      }
+    });
   }
 
 }

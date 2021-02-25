@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { LivreService } from '../../services/livre.service';
 import {HttpCallService} from '../../services/http-call.service';
-import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -30,13 +29,13 @@ export class LivreListeComponent implements OnInit {
   userId = null;
   userIdSave = null;
   totalItems = 0; // Le total des livres
-  perPage = 2; // Le nombre par page
+  perPage = 5; // Le nombre par page
 
   actualPage = 0; // La page actuelle sur laquelle le paginator s'est arrêté.
   actualSize = this.perPage; // La size des elements qui est mise à jour avec le paginator.
 
   // tslint:disable-next-line:variable-name
-  constructor(public _httpCallService: HttpCallService, private httpClient: HttpClient, public livreService: LivreService) {
+  constructor(public _httpCallService: HttpCallService, public livreService: LivreService) {
     this.httpCallService = _httpCallService;
   }
 
@@ -62,50 +61,52 @@ export class LivreListeComponent implements OnInit {
     }
 
     this.liste(0, this.perPage, this.userId);
-    this.paginator.pageIndex = 0;
+
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
   }
 
   liste(page, perPage, userId = null): void {
 
     this.livreService.livreList(page, perPage, userId).pipe(map(data => {
       this.data = [];
-      data.livres.rows.forEach((item) => {
-        let categorieName = '';
-        let inc = 0;
 
-        item.Categories.forEach((categorie) => {
-          inc++;
-          categorieName += categorie.titre;
+      if (data.livres) {
+        data.livres.rows.forEach((item) => {
+          let categorieName = '';
 
-          if (inc !== item.Categories.length) {
-            categorieName += ' ; ';
-          }
+          item.Categories.forEach((categorie) => {
+            categorieName += '<span class="badge badge-secondary" style="padding-left: 5px;">' + categorie.titre + '</span>';
+          });
+
+          // tslint:disable-next-line:max-line-length
+          this.data.push({id : item.id, titre: item.titre, description: item.description, note: item.note, categorie: categorieName, user: item.User});
         });
 
-        // tslint:disable-next-line:max-line-length
-        this.data.push({id : item.id, titre: item.titre, description: item.description, note: item.note, categorie: categorieName, user: item.User});
-      });
+        this.totalItems = data.totalLivre;
 
-      this.totalItems = data.totalLivre;
+        this.dataSource.data = this.data;
+      }
 
-      this.dataSource.data = this.data;
 
     })).subscribe();
   }
 
   onDelete(livreId) {
-    this.livreService.deleteLivre(livreId).subscribe(data => {
-      const dataReturned: any = data;
 
-      if (dataReturned.success) {
+    if (confirm('Etes-vous sur de vouloir supprimer ?')) {
+      this.livreService.deleteLivre(livreId).subscribe(data => {
+        const dataReturned: any = data;
 
-        this.paginator.pageIndex = 0;
+        if (dataReturned.success) {
 
-        console.log(dataReturned);
+          this.paginator.pageIndex = 0;
 
-        this.liste(0, this.perPage, this.userId);
-      }
-    });
+          this.liste(0, this.perPage, this.userId);
+        }
+      });
+    }
   }
 
   onSelectGroup(value) {
@@ -119,7 +120,6 @@ export class LivreListeComponent implements OnInit {
 
       this.selection.clear();
     }
-
   }
 
   masterToggle() {

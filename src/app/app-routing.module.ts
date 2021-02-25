@@ -8,7 +8,8 @@ import { LoginComponent } from './login/login.component';
 import {LogoutComponent} from './logout/logout.component';
 
 import { LivreListeComponent } from './livre/livre-liste/livre-liste.component';
-import { LivreDetailComponent } from './livre/livre-detail/livre-detail.component'
+import { LivreDetailComponent } from './livre/livre-detail/livre-detail.component';
+import { CategorieListeComponent } from './categorie/categorie-liste/categorie-liste.component';
 
 
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'livre/list', component: LivreListeComponent, canActivate: [AuthGuardService] },
   { path: 'livre/new', component: LivreDetailComponent, canActivate: [AuthGuardService] },
   { path: 'livre/detail/:id', component: LivreDetailComponent, canActivate: [AuthGuardService] },
+  { path: 'categorie/list', component: CategorieListeComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 

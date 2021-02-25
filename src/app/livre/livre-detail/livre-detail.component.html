@@ -12,33 +12,37 @@
       </div>
 
       <div style="float:right">
-        <ngb-rating max="5" [rate]="livre.controls.livreNote.value"></ngb-rating>
+        <ngb-rating max="10" [rate]="livre.controls.livreNote.value"></ngb-rating>
         <hr>
         <pre>Note: <b>{{livre.controls.livreNote.value}}</b></pre>
       </div>
 
     </div>
   </div>
-
 </div>
 
 <div class="container" *ngIf="userId == livreUserId || !livreUserId" style="margin-top: 15px; text-align: center; max-width: 50%;">
+
+  <div class="alert alert-danger alert-dismissible" style=" {{(messageError) ? 'display: block;' : 'display:none;' }}">
+    <strong>{{messageError}}</strong>
+  </div>
+
   <div >
     <form [formGroup]="livre">
 
       <mat-form-field style="width: 100%;">
         <mat-label>Titre</mat-label>
-        <input matInput formControlName="livreTitle" placeholder="Titre">
+        <input matInput required formControlName="livreTitle" (blur)="checkTitle($event)" placeholder="Titre">
       </mat-form-field>
 
       <mat-form-field style="width: 100%;">
         <mat-label>Description</mat-label>
-        <textarea matInput formControlName="livreDescription" placeholder="Description"></textarea>
+        <textarea matInput required formControlName="livreDescription" placeholder="Description"></textarea>
       </mat-form-field>
 
       <div class="row">
         <div class="col-md-3">
-          <mat-slider formControlName="livreNote" thumbLabel step="0.5" min="1" max="5" value="0"></mat-slider>
+          <mat-slider formControlName="livreNote" thumbLabel step="0.5" min="1" max="10" value="0"></mat-slider>
         </div>
         <div class="col-md-9">
           <mat-form-field style="width: 100%;">
@@ -50,7 +54,7 @@
         </div>
       </div>
 
-      <button type="submit" mat-raised-button color="primary" style="float:right;" (click)="onSubmit()"> Sauvegarder </button>
+      <button type="submit" mat-raised-button color="primary" style="float:right;" [disabled]="!toSubmit ? 'disabled': null" (click)="onSubmit()"> Sauvegarder </button>
 
     </form>
   </div>

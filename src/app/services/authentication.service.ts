@@ -3,6 +3,7 @@ import {HttpCallService} from './http-call.service';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {map, tap} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthenticationService {
 
   login(email: string, password: string) {
 
-    return this.httpClient.post('http://localhost:8081/api/user/login/', {
+    return this.httpClient.post(`${environment.apiUrl}/api/user/login/`, {
       'email': email,
       'password': password
     },  {
@@ -53,7 +54,7 @@ export class AuthenticationService {
   }
 
   retAmIAuth(token) {
-    return this.httpClient.post('http://localhost:8081/api/amIAuth', {
+    return this.httpClient.post(`${environment.apiUrl}/api/amIAuth`, {
       'token': token,
     },  {
       headers: this.httpCallService.getHeader(null, 'application/json')

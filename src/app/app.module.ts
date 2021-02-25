@@ -22,6 +22,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { LivreDetailComponent } from './livre/livre-detail/livre-detail.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { CategorieListeComponent } from './categorie/categorie-liste/categorie-liste.component';
+import { CategorieDialogComponent } from './categorie/categorie-dialog/categorie-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -34,7 +37,9 @@ import {MatSliderModule} from '@angular/material/slider';
     LoginComponent,
     RegisterComponent,
     LivreListeComponent,
-    LivreDetailComponent
+    LivreDetailComponent,
+    CategorieListeComponent,
+    CategorieDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,7 @@ import {MatSliderModule} from '@angular/material/slider';
     MatSelectModule,
     MatCheckboxModule,
     MatSliderModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
