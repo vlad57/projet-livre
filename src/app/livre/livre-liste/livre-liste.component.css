@@ -36,8 +36,8 @@ mat-header-cell, mat-cell {
   text-align: center;
 }
 
-.mat-row {
-  height: auto;
+mat-row {
+  align-items: stretch !important;
 }
 
 mat-cell {

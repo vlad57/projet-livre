@@ -59,7 +59,7 @@
 
       <ng-container matColumnDef="categorie">
         <mat-header-cell mat-header-cell *matHeaderCellDef>Catégorie</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row" [innerHTML]="row.categorie"></mat-cell>
+        <mat-cell mat-cell style="overflow: scroll;" *matCellDef="let row" [innerHTML]="row.categorie"></mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="action">

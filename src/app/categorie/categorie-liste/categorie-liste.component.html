@@ -46,12 +46,12 @@
 
       <ng-container matColumnDef="titre">
         <mat-header-cell mat-header-cell *matHeaderCellDef>Titre</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row">{{row.titre}}</mat-cell>
+        <mat-cell mat-cell style="overflow: scroll;" *matCellDef="let row">{{row.titre}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="description">
         <mat-header-cell mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
+        <mat-cell mat-cell style="overflow: scroll;" *matCellDef="let row">{{row.description}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="action">
